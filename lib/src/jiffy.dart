@@ -265,6 +265,23 @@ class Jiffy {
     }
   }
 
+  static String times({
+    int? years,
+    int? months,
+    int? days,
+    int? hours,
+    int? minutes,
+  }) {
+    final locale = getLocale(Intl.getCurrentLocale());
+    final rt = locale.relativeDateTime();
+    return '${years != null ? rt.years(years) : ''}'
+        ' ${months != null ? rt.months(months) : ''}'
+        ' ${days != null ? rt.days(days) : ''}'
+        ' ${hours != null ? rt.hours(hours) : ''}'
+        ' ${minutes != null ? rt.minutes(minutes) : ''}'
+        .trim();
+  }
+
   /// Returns a new [Jiffy] instance with the same date and time as the
   /// original instance.
   ///

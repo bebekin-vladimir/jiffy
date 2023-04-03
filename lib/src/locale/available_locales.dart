@@ -1,3 +1,5 @@
+import 'package:jiffy/src/locale/locales/stub_locale.dart';
+
 import 'locale.dart';
 import 'locales/ar_locale.dart';
 import 'locales/de_locale.dart';
@@ -78,10 +80,18 @@ Map<String, Locale> _availableLocales = {
   'th': ThLocale()
 };
 
-Locale getLocale(String locale) {
-  return _availableLocales[locale.toLowerCase()] ?? _availableLocales['en_us']!;
+Locale getLocale(String code) {
+  try {
+    final lang = code.split('_')[0];
+    return _availableLocales[code.toLowerCase()]
+        ?? _availableLocales[lang]
+        ?? StubLocale(lang: lang);
+  } catch (_) {}
+
+  return _availableLocales['en_us']!;
 }
 
 bool isLocalAvailable(String locale) {
-  return _availableLocales.containsKey(locale.toLowerCase());
+  return true;
+  // return _availableLocales.containsKey(locale.toLowerCase());
 }
