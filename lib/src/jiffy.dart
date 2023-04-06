@@ -1,5 +1,5 @@
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 import './default_display.dart';
 import './display.dart';
@@ -614,6 +614,9 @@ class Jiffy {
   /// Returns the quarter. Example: `3rd quarter`
   // ignore: non_constant_identifier_names
   String get QQQQ => _defaultDisplay.QQQQ(dateTime);
+
+  /// Returns the year. Example: `1997`
+  String get y => _defaultDisplay.y(dateTime);
 
   /// Returns the year and day of month. Example: `9/1997`
   String get yM => _defaultDisplay.yM(dateTime);

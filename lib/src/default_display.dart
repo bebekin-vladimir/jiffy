@@ -37,6 +37,8 @@ class DefaultDisplay {
   // ignore: non_constant_identifier_names
   String QQQQ(DateTime dateTime) => DateFormat.QQQQ().format(dateTime);
 
+  String y(DateTime dateTime) => DateFormat.y().format(dateTime);
+
   String yM(DateTime dateTime) => DateFormat.yM().format(dateTime);
 
   String yMd(DateTime dateTime) => DateFormat.yMd().format(dateTime);
