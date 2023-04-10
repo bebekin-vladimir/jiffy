@@ -55,11 +55,11 @@ class Getter {
   int month(DateTime dateTime) => dateTime.month;
 
   int quarterOfYear(DateTime dateTime) {
-    return int.parse(DateFormat('Q').format(dateTime));
+    return int.parse(DateFormat('Q', 'en').format(dateTime));
   }
 
   int dayOfYear(DateTime dateTime) {
-    return int.parse(DateFormat('D').format(dateTime));
+    return int.parse(DateFormat('D', 'en').format(dateTime));
   }
 
   int year(DateTime dateTime) => dateTime.year;
