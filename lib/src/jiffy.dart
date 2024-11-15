@@ -7,7 +7,6 @@ import './enums/start_of_week.dart';
 import './enums/unit.dart';
 import './getter.dart';
 import './locale/locale.dart';
-import './locale/locales/en_locale.dart';
 import './locale/supported_locales.dart' as supported_locales;
 import './manipulator.dart';
 import './parser.dart';
