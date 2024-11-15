@@ -216,18 +216,10 @@ class Jiffy {
   }
 
   void _initializeLocale(StartOfWeek? startOfWeek) {
-    var systemLocale = Intl.getCurrentLocale();
-
-    Locale locale;
-    if (supported_locales.isLocalSupported(systemLocale)) {
-      locale = supported_locales.getLocale(systemLocale);
-    } else {
-      // The locale `systemLocale` is not supported by Jiffy, hence '
-      // 'setting a default locale of `en_us`
-      locale = EnUsLocale();
-    }
-
-    _locale = LocaleWrapper(locale, startOfWeek);
+    _locale = LocaleWrapper(
+      supported_locales.getLocale(Intl.getCurrentLocale()),
+      startOfWeek,
+    );
   }
 
   /// Returns the locale code for the current locale.

@@ -82,14 +82,20 @@ Map<String, Locale> _supportedLocales = {
   'cs': CsLocale(),
 };
 
-Locale getLocale(String locale) {
-  return _supportedLocales[locale.toLowerCase()] ?? _supportedLocales['en_us']!;
-}
+Locale getLocale(String locale) => _supportedLocales[locale.toLowerCase()]
+    ?? _supportedLocales[_lang(locale)]
+    ?? _supportedLocales['en_us']!;
 
-bool isLocalSupported(String locale) {
-  return _supportedLocales.containsKey(locale.toLowerCase());
-}
+bool isLocalSupported(String locale) =>
+    _supportedLocales.containsKey(locale.toLowerCase()) ||
+        _supportedLocales.containsKey(_lang(locale));
 
-List<String> getSupportedLocales() {
-  return _supportedLocales.keys.toList();
+List<String> getSupportedLocales() => _supportedLocales.keys.toList();
+
+String _lang(String locale) {
+  try {
+    return locale.split('_').first;
+  } catch (_) {
+    return locale;
+  }
 }
