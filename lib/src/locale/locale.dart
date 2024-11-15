@@ -26,3 +26,22 @@ abstract class Locale {
   /// a specific locale.
   RelativeDateTime relativeDateTime();
 }
+
+class LocaleWrapper implements Locale {
+  LocaleWrapper(this._locale, this._startOfWeek);
+
+  final Locale _locale;
+  final StartOfWeek? _startOfWeek;
+
+  @override
+  String code() => _locale.code();
+
+  @override
+  List<String> ordinals() => _locale.ordinals();
+
+  @override
+  RelativeDateTime relativeDateTime() => _locale.relativeDateTime();
+
+  @override
+  StartOfWeek startOfWeek() => _startOfWeek ?? _locale.startOfWeek();
+}

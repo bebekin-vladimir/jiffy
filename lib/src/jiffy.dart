@@ -28,9 +28,9 @@ class Jiffy {
   late Locale _locale;
   late final DateTime _dateTime;
 
-  Jiffy._internal(var input, {String? pattern, bool isUtc = false}) {
+  Jiffy._internal(var input, {String? pattern, bool isUtc = false, StartOfWeek? startOfWeek}) {
     _initializeDependencies();
-    _initializeLocale();
+    _initializeLocale(startOfWeek);
     _initializeDateTime(input, pattern, isUtc);
   }
 
@@ -54,8 +54,8 @@ class Jiffy {
   /// ```
   ///
   /// Throws a [JiffyException] if the input [string] cannot be parsed.
-  factory Jiffy.parse(String string, {String? pattern, bool isUtc = false}) {
-    return Jiffy._internal(string, pattern: pattern, isUtc: isUtc);
+  factory Jiffy.parse(String string, {String? pattern, bool isUtc = false, StartOfWeek? startOfWeek}) {
+    return Jiffy._internal(string, pattern: pattern, isUtc: isUtc, startOfWeek: startOfWeek);
   }
 
   /// Constructs a new [Jiffy] instance from a [DateTime] object.
@@ -68,8 +68,8 @@ class Jiffy {
   /// ```dart
   /// final jiffy = Jiffy.parseFromDateTime(DateTime.now());
   /// ```
-  factory Jiffy.parseFromDateTime(DateTime dateTime) {
-    return Jiffy._internal(dateTime);
+  factory Jiffy.parseFromDateTime(DateTime dateTime, {StartOfWeek? startOfWeek}) {
+    return Jiffy._internal(dateTime, startOfWeek: startOfWeek);
   }
 
   /// Constructs a new [Jiffy] instance from an existing [Jiffy] object.
@@ -93,8 +93,8 @@ class Jiffy {
   /// final jiffy1 = Jiffy.now();
   /// final jiffy2 = jiffy1.clone();
   /// ```
-  factory Jiffy.parseFromJiffy(Jiffy jiffy) {
-    return Jiffy._internal(jiffy);
+  factory Jiffy.parseFromJiffy(Jiffy jiffy, {StartOfWeek? startOfWeek}) {
+    return Jiffy._internal(jiffy, startOfWeek: startOfWeek);
   }
 
   /// Constructs a [Jiffy] instance from a list of integers representing a
@@ -115,8 +115,8 @@ class Jiffy {
   /// final jiffy = Jiffy.parseFromList([1997, 9, 23]);
   /// ```
   /// Throws a [JiffyException] if the input [list] is empty.
-  factory Jiffy.parseFromList(List<int> list, {bool isUtc = false}) {
-    return Jiffy._internal(list, isUtc: isUtc);
+  factory Jiffy.parseFromList(List<int> list, {bool isUtc = false, StartOfWeek? startOfWeek}) {
+    return Jiffy._internal(list, isUtc: isUtc, startOfWeek: startOfWeek);
   }
 
   /// Constructs a [Jiffy] instance from a [map] of date and time values.
@@ -144,8 +144,8 @@ class Jiffy {
   /// ```
   ///
   /// Throws a [JiffyException] if the input [map] is empty.
-  factory Jiffy.parseFromMap(Map<Unit, int> map, {bool isUtc = false}) {
-    return Jiffy._internal(map, isUtc: isUtc);
+  factory Jiffy.parseFromMap(Map<Unit, int> map, {bool isUtc = false, StartOfWeek? startOfWeek}) {
+    return Jiffy._internal(map, isUtc: isUtc, startOfWeek: startOfWeek);
   }
 
   /// Constructs a [Jiffy] instance from a [microsecondsSinceEpoch] of type
@@ -159,10 +159,10 @@ class Jiffy {
   /// final jiffy = Jiffy.parseFromMicrosecondsSinceEpoch(now.microsecondsSinceEpoch);
   /// ```
   factory Jiffy.parseFromMicrosecondsSinceEpoch(int microsecondsSinceEpoch,
-      {bool isUtc = false}) {
+      {bool isUtc = false, StartOfWeek? startOfWeek}) {
     return Jiffy._internal(DateTime.fromMicrosecondsSinceEpoch(
         microsecondsSinceEpoch,
-        isUtc: isUtc));
+        isUtc: isUtc), startOfWeek: startOfWeek);
   }
 
   /// Constructs a [Jiffy] instance from a [millisecondsSinceEpoch] of type
@@ -176,10 +176,10 @@ class Jiffy {
   /// final jiffy = Jiffy.parseFromMillisecondsSinceEpoch(now.millisecondsSinceEpoch);
   /// ```
   factory Jiffy.parseFromMillisecondsSinceEpoch(int millisecondsSinceEpoch,
-      {bool isUtc = false}) {
+      {bool isUtc = false, StartOfWeek? startOfWeek}) {
     return Jiffy._internal(DateTime.fromMillisecondsSinceEpoch(
         millisecondsSinceEpoch,
-        isUtc: isUtc));
+        isUtc: isUtc), startOfWeek: startOfWeek);
   }
 
   /// Returns a [Jiffy] instance representing the current date and time.
@@ -187,7 +187,7 @@ class Jiffy {
   /// ```dart
   /// final now = Jiffy.now();
   /// ```
-  factory Jiffy.now() => Jiffy._internal(DateTime.now());
+  factory Jiffy.now({StartOfWeek? startOfWeek}) => Jiffy._internal(DateTime.now(), startOfWeek: startOfWeek);
 
   void _initializeDependencies() {
     _getter = Getter();
@@ -215,16 +215,19 @@ class Jiffy {
     }
   }
 
-  void _initializeLocale() {
+  void _initializeLocale(StartOfWeek? startOfWeek) {
     var systemLocale = Intl.getCurrentLocale();
 
+    Locale locale;
     if (supported_locales.isLocalSupported(systemLocale)) {
-      _locale = supported_locales.getLocale(systemLocale);
+      locale = supported_locales.getLocale(systemLocale);
     } else {
       // The locale `systemLocale` is not supported by Jiffy, hence '
       // 'setting a default locale of `en_us`
-      _locale = EnUsLocale();
+      locale = EnUsLocale();
     }
+
+    _locale = LocaleWrapper(locale, startOfWeek);
   }
 
   /// Returns the locale code for the current locale.
