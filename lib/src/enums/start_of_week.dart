@@ -1,1 +1,9 @@
-enum StartOfWeek { saturday, sunday, monday }
+enum StartOfWeek {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday
+}

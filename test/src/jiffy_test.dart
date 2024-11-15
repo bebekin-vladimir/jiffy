@@ -1100,6 +1100,27 @@ void main() {
       // Execute and Verify
       expect(jiffy1.hashCode, isNot(jiffy2.hashCode));
     });
+
+    test('Should successfully calculate start of week date',
+        () {
+          for (var day in StartOfWeek.values) {
+            expect(
+              Jiffy.parseFromDateTime(DateTime(2024, 11, 15),
+                startOfWeek: day,
+              ).startOf(Unit.week).dateTime,
+
+              DateTime(2024, 11, switch(day) {
+                StartOfWeek.monday => 11,
+                StartOfWeek.tuesday => 12,
+                StartOfWeek.wednesday => 13,
+                StartOfWeek.thursday => 14,
+                StartOfWeek.friday => 15,
+                StartOfWeek.saturday => 09,
+                StartOfWeek.sunday => 10,
+              }),
+            );
+          }
+        });
   });
 }
 

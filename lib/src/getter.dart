@@ -27,18 +27,23 @@ class Getter {
   int date(DateTime dateTime) => dateTime.day;
 
   int dayOfWeek(DateTime dateTime, StartOfWeek startOfWeek) {
-    var weekDays = [1, 2, 3, 4, 5, 6, 7, 1, 2];
+    const weekDays = [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6];
     var weekDayIndex = dateTime.weekday - 1;
-
     switch (startOfWeek) {
       case StartOfWeek.monday:
         break;
-      case StartOfWeek.sunday:
-        weekDayIndex += 1;
-        break;
+      case StartOfWeek.tuesday:
+        weekDayIndex += 6;
+      case StartOfWeek.wednesday:
+        weekDayIndex += 5;
+      case StartOfWeek.thursday:
+        weekDayIndex += 4;
+      case StartOfWeek.friday:
+        weekDayIndex += 3;
       case StartOfWeek.saturday:
         weekDayIndex += 2;
-        break;
+      case StartOfWeek.sunday:
+        weekDayIndex += 1;
     }
 
     return weekDays[weekDayIndex];

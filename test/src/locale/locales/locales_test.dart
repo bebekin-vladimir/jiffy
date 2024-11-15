@@ -76,6 +76,13 @@ void main() {
 List<Map<String, dynamic>> localesTestData() {
   return [
     {
+      'locale': LocaleWrapper(EnLocale(), StartOfWeek.thursday),
+      'code': 'en',
+      'ordinals': ['st', 'nd', 'rd', 'th'],
+      'startOfWeek': StartOfWeek.thursday,
+      'relativeTime': EnRelativeTime()
+    },
+    {
       'locale': EnLocale(),
       'code': 'en',
       'ordinals': ['st', 'nd', 'rd', 'th'],

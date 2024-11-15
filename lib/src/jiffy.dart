@@ -294,10 +294,10 @@ class Jiffy {
   ///
   /// The returned instance is not tied to the original instance, so
   /// modifying the new instance will not affect the original.
-  Jiffy clone() => Jiffy.parseFromDateTime(dateTime);
+  Jiffy clone() => Jiffy.parseFromDateTime(dateTime, startOfWeek: _locale.startOfWeek());
 
   Jiffy _clone(DateTime dateTime) =>
-      Jiffy.parseFromDateTime(_getter.dateTime(dateTime));
+      Jiffy.parseFromDateTime(_getter.dateTime(dateTime), startOfWeek: _locale.startOfWeek());
 
   /// Returns a new [DateTime] instance of the [Jiffy] object.
   DateTime get dateTime => _getter.dateTime(_dateTime);
@@ -742,8 +742,8 @@ class Jiffy {
   /// If [withPrefixAndSuffix] is `true` (default), the output string will
   /// include prefix and suffix words like "in" or "ago". Otherwise, only
   /// the relative time difference string will be returned.
-  String fromNow({bool withPrefixAndSuffix = true}) =>
-      from(Jiffy.now(), withPrefixAndSuffix: withPrefixAndSuffix);
+  String fromNow({bool withPrefixAndSuffix = true, StartOfWeek? startOfWeek}) =>
+      from(Jiffy.now(startOfWeek: startOfWeek), withPrefixAndSuffix: withPrefixAndSuffix);
 
   /// Returns a string representation of current [Jiffy]'s instance relative
   /// to [jiffy]'s date and time, with optional [withPrefixAndSuffix] flag
@@ -798,8 +798,8 @@ class Jiffy {
   /// If [withPrefixAndSuffix] is `true` (default), the output string will
   /// include prefix and suffix words like "in" or "ago". Otherwise, only
   /// the relative time difference string will be returned.
-  String toNow({bool withPrefixAndSuffix = true}) =>
-      to(Jiffy.now(), withPrefixAndSuffix: withPrefixAndSuffix);
+  String toNow({bool withPrefixAndSuffix = true, StartOfWeek? startOfWeek}) =>
+      to(Jiffy.now(startOfWeek: startOfWeek), withPrefixAndSuffix: withPrefixAndSuffix);
 
   /// Returns the difference between this [Jiffy] instance and the given
   /// [jiffy] instance as a numeric value.
